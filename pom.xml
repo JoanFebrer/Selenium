@@ -25,6 +25,7 @@
 	                    <configuration>
 	                        <source>1.8</source>
 	                        <target>1.8</target>
+	   						<executable>C:\Program Files\AdoptOpenJDK\jdk-15.0.0.36-hotspot</executable>
 	                    </configuration>
 				</plugin>
 			</plugins>
