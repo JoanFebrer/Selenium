@@ -36,7 +36,7 @@ public class TestLevels {
 	// INITIALIZE DRIVER
 	@BeforeClass
 	public static void initialize() {
-		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver","chromedriver");
 		ArrayList<String> optionsList = new ArrayList<String>();
 		ChromeOptions chromeOptions = new ChromeOptions();
 		optionsList.add("--ignore-ssl-errors=yes");
