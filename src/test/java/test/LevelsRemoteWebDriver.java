@@ -3,7 +3,8 @@ package test;
 import static org.junit.Assert.assertEquals;
 
 
-
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,8 +22,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class TestLevels {
+public class LevelsRemoteWebDriver {
 
 	private static WebDriver driver = null;
 	private By startButton = By.id("start_button");
@@ -30,21 +34,18 @@ public class TestLevels {
 	private By nextButton = By.id("next");
 	private By inputButton = By.id("input");
 	private WebElement levelTitleElement = null;
+	static final String HOST_URL = "http://localhost:4545/wd/hub";
 	Alert alert = null;
 	
 
 	// INITIALIZE DRIVER
+	
 	@BeforeClass
-	public static void initialize() {
-		System.setProperty("webdriver.chrome.driver","chromedriver");
-		ArrayList<String> optionsList = new ArrayList<String>();
-		ChromeOptions chromeOptions = new ChromeOptions();
-		optionsList.add("--ignore-ssl-errors=yes");
-		optionsList.add("--ignore-certificate-errors");
-		optionsList.add("--start-maximized");
-		optionsList.add("--incognito");
-		chromeOptions.addArguments(optionsList);
-		driver = new ChromeDriver(chromeOptions);
+	public static void initialize() throws MalformedURLException {
+		ChromeOptions options=new ChromeOptions();
+		options.addArguments("--incognito");
+		options.addArguments("--start-maximized");
+		driver=new RemoteWebDriver(new URL("http://localhost:4545/wd/hub"),options);
 		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
 	}
 	
@@ -71,8 +72,6 @@ public class TestLevels {
 			WebElement continueButtonL2 = driver.findElement(nextButton);
 			//WebElement continueButtonL2 = driver.findElement(By.cssSelector("#next"));
 			continueButtonL2.click();
-			try {Thread.sleep(2000);}
-			catch(Exception e) {System.out.println(e.toString());}
 			//driver.navigate().back();
 			a = false;
 			}
@@ -125,9 +124,9 @@ public class TestLevels {
 		alert.accept();
 	}
 	
-	public void level9() {
+	public void level9() throws InterruptedException {
 		comprovarTitol("Level 9");
-		
+		Thread.sleep(400);
 		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(1));
 	
@@ -154,14 +153,21 @@ public class TestLevels {
 	    Actions act = new Actions(driver);
 	    act.dragAndDrop(sourceElement,targetElement).build().perform();
 	}
+	
+	public void privateNavigation() {
+		WebElement advancedButton = driver.findElement(By.id("details-button"));
+		advancedButton.click();
+		WebElement proceedLink = driver.findElement(By.id("proceed-link"));
+		proceedLink.click();
+	}
 
 	@Test
-	public void testLevels() {
+	public void testLevels() throws MalformedURLException, InterruptedException {
 
 		// Open URL
+		
 		driver.get("https://pruebaselenium.serviciosdetesting.com/");
-		String s = driver.getPageSource();
-		System.out.print(s);
+		privateNavigation();
 		level1();
 		level2();
 		level3();
@@ -178,7 +184,7 @@ public class TestLevels {
 	@AfterClass
 	public static void closeTestSuite() {
 		// Close browser
-		driver.close();
+		driver.quit();
 	}
 
 }
