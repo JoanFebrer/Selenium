@@ -43,6 +43,8 @@ public class TestLevels {
 		optionsList.add("--ignore-certificate-errors");
 		optionsList.add("--start-maximized");
 		optionsList.add("--incognito");
+		optionsList.add("--headless");
+		optionsList.add("--no-sandbox");
 		chromeOptions.addArguments(optionsList);
 		driver = new ChromeDriver(chromeOptions);
 		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
