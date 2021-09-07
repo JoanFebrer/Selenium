@@ -155,10 +155,13 @@ public class LevelsRemoteWebDriver {
 	}
 	
 	public void privateNavigation() {
+		try {
 		WebElement advancedButton = driver.findElement(By.id("details-button"));
 		advancedButton.click();
 		WebElement proceedLink = driver.findElement(By.id("proceed-link"));
 		proceedLink.click();
+		}
+		catch (Exception e) {}
 	}
 
 	@Test
