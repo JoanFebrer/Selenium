@@ -36,15 +36,13 @@ public class TestLevels {
 	// INITIALIZE DRIVER
 	@BeforeClass
 	public static void initialize() {
-		System.setProperty("webdriver.chrome.driver","chromedriver");
+		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
 		ArrayList<String> optionsList = new ArrayList<String>();
 		ChromeOptions chromeOptions = new ChromeOptions();
 		optionsList.add("--ignore-ssl-errors=yes");
 		optionsList.add("--ignore-certificate-errors");
 		optionsList.add("--start-maximized");
 		optionsList.add("--incognito");
-		optionsList.add("--headless");
-		optionsList.add("--no-sandbox");
 		chromeOptions.addArguments(optionsList);
 		driver = new ChromeDriver(chromeOptions);
 		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
